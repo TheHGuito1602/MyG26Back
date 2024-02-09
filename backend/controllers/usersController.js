@@ -47,13 +47,30 @@ const crearUser = asyncHandler(async (req, res) => {
 })
 
 const loginUser = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: 'Login Usuario' })
+    const  { email, password } = req.body;
+    const user = await User.findOne({ email});
+    if(user && (await bcrypt.compare(password, user.password))){
+        res.status(200).json({
+            _id: user.id,
+            name: user.name,
+            email: user.email,
+            token: generarToken(user.id)
+        })
+    }else{
+        res.status(400);
+        throw new Error('Datos de usuario incorrectos')
+    }
 })
 
 const datosUser = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: 'Datos del Usuario' })
+    res.status(200).json(req.user)
 })
 
+const generarToken=(id_usuario)=>{
+    return jwt.sign({id_usuario}, process.env.JWT_SECRET,{
+        expiresIn:'30d'
+    })
+}
 module.exports = {
     crearUser,
     loginUser,
