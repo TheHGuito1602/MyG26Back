@@ -8,7 +8,6 @@ const getTareas = asyncHandler( async(req,res) =>{
 
 const createTareas = asyncHandler( async (req,res) =>{
     if(!req.body.descripcion){
-        //res.status(400).json({message: 'Por favor escriba una description'})
         res.status(400)
         throw new Error('Por favor escriba una description');
     }

@@ -7,8 +7,8 @@ const {getTareas, createTareas, updateTareas, deleteTareas} = require('../contro
 router.get('/', getTareas);
 router.post('/', createTareas);
 
-router.route('/:id').delete(deleteTareas).put(updateTareas)
-//router.put('/:id', updateTareas);
-//router.delete('/:id', deleteTareas);
+//router.route('/:id').delete(deleteTareas).put(updateTareas)
+router.put('/:id', updateTareas);
+router.delete('/:id', deleteTareas);
 
 module.exports = router
